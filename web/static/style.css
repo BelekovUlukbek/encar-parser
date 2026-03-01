@@ -1,0 +1,949 @@
+/* ========== AUTO KOREA – ПОЛНЫЙ СТИЛЬ ========== */
+
+:root {
+    --primary-blue: #1e4d8c;
+    --secondary-blue: #2b6eb0;
+    --light-blue: #e6f0fa;
+    --dark-text: #333333;
+    --light-text: #666666;
+    --white: #ffffff;
+    --light-gray: #f5f7fa;
+    --border-gray: #e0e5ec;
+    --success: #28a745;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --border-radius: 12px;
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    --transition: 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+body {
+    background-color: var(--white);
+    color: var(--dark-text);
+    line-height: 1.6;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ========== ШАПКА ========== */
+header {
+    background: var(--white);
+    padding: 20px 30px;
+    border-radius: var(--border-radius);
+    margin-bottom: 30px;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    border: 1px solid var(--border-gray);
+    transition: background-color var(--transition), border-color var(--transition);
+}
+
+.logo h1 {
+    color: var(--primary-blue);
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.logo span {
+    color: var(--light-text);
+    font-size: 14px;
+    margin-left: 10px;
+    font-weight: normal;
+}
+
+nav {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+nav a {
+    color: var(--dark-text);
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+}
+
+nav a:hover {
+    background: var(--light-blue);
+    color: var(--primary-blue);
+}
+
+.btn-login {
+    background: var(--primary-blue);
+    color: white !important;
+}
+
+.btn-login:hover {
+    background: var(--secondary-blue);
+}
+
+.btn-register {
+    background: var(--secondary-blue);
+    color: white !important;
+}
+
+.btn-register:hover {
+    background: var(--primary-blue);
+}
+
+.user-menu {
+    background: var(--light-blue);
+    color: var(--primary-blue) !important;
+    font-weight: 500;
+}
+
+.premium-badge {
+    background: var(--warning);
+    color: var(--dark-text);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    margin-left: 5px;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--primary-blue);
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+
+.theme-toggle:hover { color: var(--secondary-blue); }
+.theme-toggle .fa-sun { display: none; }
+.theme-toggle .fa-moon { display: inline-block; }
+
+/* ========== УВЕДОМЛЕНИЯ ========== */
+.alert {
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    border-left: 4px solid transparent;
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to   { transform: translateY(0);     opacity: 1; }
+}
+
+.alert-success { background: #d4edda; color: #155724; border-left-color: var(--success); }
+.alert-danger  { background: #f8d7da; color: #721c24; border-left-color: var(--danger);  }
+.alert-warning { background: #fff3cd; color: #856404; border-left-color: var(--warning); }
+.alert-info    { background: #d1ecf1; color: #0c5460; border-left-color: #17a2b8;        }
+
+/* ========== ФУТЕР ========== */
+footer {
+    text-align: center;
+    padding: 30px;
+    color: var(--light-text);
+    font-size: 14px;
+    border-top: 1px solid var(--border-gray);
+    margin-top: 40px;
+}
+
+/* ========== HERO ========== */
+.hero {
+    background: var(--light-blue);
+    border-radius: 30px;
+    padding: 50px 40px;
+    margin-bottom: 40px;
+}
+
+.hero-content { max-width: 800px; margin: 0 auto; text-align: center; }
+
+.hero h1 { font-size: 40px; color: var(--primary-blue); margin-bottom: 15px; }
+
+.hero-subtitle { font-size: 18px; color: var(--light-text); margin-bottom: 30px; }
+
+.hero-search {
+    display: flex;
+    gap: 10px;
+    background: white;
+    padding: 5px;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.hero-search input {
+    flex: 1;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+}
+
+.hero-search button {
+    padding: 15px 35px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.hero-search button:hover {
+    background: var(--secondary-blue);
+    transform: translateY(-2px);
+}
+
+.recent-checks {
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.recent-checks-label { font-weight: 600; color: var(--primary-blue); }
+
+.recent-checks-marquee {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+}
+
+.recent-checks-marquee span {
+    white-space: nowrap;
+    background: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* ========== СЕКЦИИ ========== */
+.section-title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 30px;
+}
+
+.section-title span { color: var(--secondary-blue); }
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.advantage-card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid var(--border-gray);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.advantage-card:hover { transform: translateY(-5px); box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+.advantage-card i { font-size: 40px; color: var(--primary-blue); margin-bottom: 15px; }
+.advantage-card h3 { font-size: 20px; margin-bottom: 10px; }
+.advantage-card p { color: var(--light-text); }
+
+.report-features {
+    background: var(--light-gray);
+    padding: 50px 0;
+    margin-bottom: 50px;
+    border-radius: 30px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.feature-item {
+    background: var(--white);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 1px solid var(--border-gray);
+}
+
+.feature-item i { font-size: 24px; width: 40px; text-align: center; }
+.feature-item span { font-weight: 500; }
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.step {
+    background: var(--white);
+    padding: 40px 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    border: 1px solid var(--border-gray);
+}
+
+.step-number {
+    width: 40px; height: 40px;
+    background: var(--primary-blue);
+    color: white;
+    font-weight: bold; font-size: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.step i { font-size: 40px; color: var(--primary-blue); margin-bottom: 15px; }
+.step h4 { font-size: 20px; margin-bottom: 10px; }
+.step p { color: var(--light-text); }
+
+.sample-report { margin-bottom: 50px; }
+
+.report-preview {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    padding: 30px;
+    border: 1px solid var(--border-gray);
+}
+
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-gray);
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.report-header h3 { font-size: 20px; color: var(--dark-text); }
+.report-status { background: var(--success); color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; }
+
+.report-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.report-block { background: var(--light-gray); padding: 20px; border-radius: var(--border-radius); }
+.report-block h4 { display: flex; align-items: center; gap: 10px; font-size: 16px; margin-bottom: 15px; color: var(--dark-text); }
+.report-block ul { list-style: none; }
+.report-block li { padding: 5px 0; color: var(--light-text); font-size: 14px; }
+
+.preview-images { display: flex; gap: 10px; }
+.preview-thumb { width: 60px; height: 60px; background: var(--light-blue); border-radius: 5px; }
+
+.btn-outline-light {
+    display: inline-block;
+    padding: 10px 25px;
+    border: 2px solid var(--primary-blue);
+    color: var(--primary-blue);
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-outline-light:hover { background: var(--primary-blue); color: white; }
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+    margin-bottom: 50px;
+    padding: 30px;
+    background: var(--white);
+    border-radius: 30px;
+    border: 1px solid var(--border-gray);
+    flex-wrap: wrap;
+}
+
+.stat-card { text-align: center; }
+.stat-number { display: block; font-size: 42px; font-weight: 700; color: var(--primary-blue); }
+.stat-label { color: var(--light-text); font-size: 16px; }
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.testimonial {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-gray);
+}
+
+.testimonial i { font-size: 24px; color: var(--primary-blue); opacity: 0.3; margin-bottom: 15px; }
+.testimonial p { font-style: italic; margin-bottom: 20px; color: var(--dark-text); }
+.testimonial-author strong { display: block; color: var(--dark-text); }
+.testimonial-author span { color: var(--light-text); font-size: 14px; }
+
+.cta {
+    background: var(--primary-blue);
+    border-radius: 30px;
+    padding: 50px 40px;
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.cta h2 { font-size: 32px; margin-bottom: 15px; }
+.cta p { font-size: 18px; margin-bottom: 25px; opacity: 0.9; }
+
+.btn-cta {
+    display: inline-block;
+    padding: 15px 40px;
+    background: white;
+    color: var(--primary-blue);
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s;
+}
+
+.btn-cta:hover { transform: scale(1.05); }
+
+/* ========== КАРТОЧКИ АВТО ========== */
+.car-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin: 30px 0;
+}
+
+.car-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: all var(--transition);
+    border: 1px solid var(--border-gray);
+    opacity: 0;
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0);    }
+}
+
+.car-card:nth-child(1) { animation-delay: 0.1s; }
+.car-card:nth-child(2) { animation-delay: 0.2s; }
+.car-card:nth-child(3) { animation-delay: 0.3s; }
+.car-card:nth-child(4) { animation-delay: 0.4s; }
+.car-card:nth-child(5) { animation-delay: 0.5s; }
+.car-card:nth-child(6) { animation-delay: 0.6s; }
+
+.car-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+.car-card-image {
+    height: 180px;
+    background: var(--light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-blue);
+    font-size: 60px;
+}
+
+.car-card-content { padding: 20px; }
+.car-card h4 { font-size: 20px; margin-bottom: 10px; color: var(--dark-text); }
+.car-card p { color: var(--light-text); margin: 8px 0; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.car-card p i { width: 20px; color: var(--primary-blue); }
+.car-card-link { display: inline-block; margin-top: 15px; color: var(--primary-blue); text-decoration: none; font-weight: 500; }
+.car-card-link:hover { color: var(--secondary-blue); }
+
+.back-link { display: inline-block; margin-bottom: 20px; color: var(--primary-blue); text-decoration: none; font-size: 16px; transition: transform 0.2s; }
+.back-link:hover { transform: translateX(-5px); }
+
+.not-found { background: #f8f9fa; padding: 60px 20px; border-radius: var(--border-radius); text-align: center; color: var(--light-text); border: 1px solid var(--border-gray); }
+
+/* ========== АВТОРИЗАЦИЯ ========== */
+.auth-container { max-width: 500px; margin: 40px auto; }
+
+.auth-card { background: var(--white); border-radius: var(--border-radius); padding: 40px; border: 1px solid var(--border-gray); }
+
+.auth-header { text-align: center; margin-bottom: 30px; }
+.auth-header i { color: var(--primary-blue); margin-bottom: 15px; }
+.auth-header h2 { color: var(--dark-text); margin-bottom: 10px; }
+
+.auth-form .form-group { margin-bottom: 20px; }
+.auth-form label { display: block; margin-bottom: 8px; color: var(--dark-text); }
+.auth-form input { width: 100%; padding: 12px 15px; border: 1px solid var(--border-gray); border-radius: 8px; font-size: 16px; transition: border-color 0.2s; }
+.auth-form input:focus { outline: none; border-color: var(--primary-blue); }
+
+.auth-btn { width: 100%; padding: 14px; background: var(--primary-blue); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+.auth-btn:hover { background: var(--secondary-blue); }
+
+.auth-links { text-align: center; margin-top: 20px; }
+.auth-links a { color: var(--primary-blue); text-decoration: none; }
+
+/* ========== ПРОФИЛЬ ========== */
+.profile-container { max-width: 900px; margin: 40px auto; border-radius: var(--border-radius); padding: 30px; border: 1px solid var(--border-gray); }
+.profile-header { display: flex; gap: 30px; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--border-gray); margin-bottom: 20px; flex-wrap: wrap; }
+.profile-avatar i { font-size: 80px; color: var(--primary-blue); }
+.profile-info h2 { color: var(--dark-text); margin-bottom: 10px; }
+.profile-info p { color: var(--light-text); margin: 5px 0; }
+.profile-info i { width: 20px; color: var(--primary-blue); margin-right: 10px; }
+
+.premium-badge-large { background: linear-gradient(135deg, #f1c40f, #f39c12); color: white; padding: 8px 20px; border-radius: 30px; display: inline-block; margin: 10px 0; }
+.free-badge { background: var(--light-gray); color: var(--light-text); padding: 8px 20px; border-radius: 30px; display: inline-block; margin: 10px 0; }
+.btn-premium { display: inline-block; padding: 8px 20px; background: linear-gradient(135deg, #f1c40f, #f39c12); color: white; border-radius: 30px; text-decoration: none; margin-left: 15px; }
+
+.history-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+.history-table th { text-align: left; padding: 12px; background: var(--light-blue); color: var(--primary-blue); font-weight: 600; }
+.history-table td { padding: 12px; border-bottom: 1px solid var(--border-gray); }
+.history-table code { background: var(--light-gray); padding: 4px 8px; border-radius: 4px; font-family: monospace; }
+
+.btn-small { display: inline-block; padding: 5px 15px; background: var(--light-blue); color: var(--primary-blue); text-decoration: none; border-radius: 20px; font-size: 13px; transition: background 0.2s; }
+.btn-small:hover { background: var(--primary-blue); color: white; }
+.empty-state { text-align: center; padding: 40px; color: var(--light-text); }
+
+/* ========== ТАРИФЫ ========== */
+.pricing-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+.pricing-header { text-align: center; margin-bottom: 50px; }
+.pricing-header h1 { font-size: 36px; color: var(--primary-blue); margin-bottom: 15px; }
+.pricing-header p { color: var(--light-text); max-width: 700px; margin: 0 auto; }
+
+.pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+
+.pricing-card { background: var(--white); border-radius: var(--border-radius); border: 1px solid var(--border-gray); overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; position: relative; display: flex; flex-direction: column; }
+.pricing-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-color: var(--primary-blue); }
+.pricing-card.popular { border: 2px solid var(--primary-blue); transform: scale(1.02); }
+
+.popular-badge { position: absolute; top: 12px; right: 12px; background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; z-index: 1; }
+
+.pricing-card-header { background: var(--light-blue); padding: 25px 20px; text-align: center; border-bottom: 1px solid var(--border-gray); }
+.pricing-card-header h3 { font-size: 24px; color: var(--primary-blue); margin-bottom: 10px; }
+
+.badge { display: inline-block; background: var(--primary-blue); color: white; padding: 5px 15px; border-radius: 25px; font-size: 14px; font-weight: 500; }
+
+.pricing-card-body { padding: 30px 25px; flex-grow: 1; display: flex; flex-direction: column; }
+
+.price { font-size: 36px; font-weight: 700; color: var(--dark-text); margin-bottom: 5px; }
+.price-per-report { color: var(--light-text); font-size: 14px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-gray); }
+
+.features { list-style: none; margin-bottom: 25px; flex-grow: 1; }
+.features li { padding: 8px 0; color: var(--dark-text); display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.features li i { color: var(--success); font-size: 16px; width: 20px; }
+
+.btn-pricing { display: block; width: 100%; padding: 14px; background: var(--primary-blue); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.2s; text-align: center; text-decoration: none; }
+.btn-pricing:hover { background: var(--secondary-blue); transform: translateY(-2px); }
+
+/* ========== ОПЛАТА ========== */
+.payment-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+.payment-header { text-align: center; margin-bottom: 50px; }
+.payment-header h1 { font-size: 36px; color: var(--primary-blue); margin-bottom: 15px; }
+.payment-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+
+.selected-plan { background: var(--white); border-radius: var(--border-radius); padding: 30px; border: 1px solid var(--border-gray); }
+.selected-plan h2 { color: var(--dark-text); margin-bottom: 25px; font-size: 22px; }
+
+.plan-details { text-align: center; padding: 20px; background: var(--light-blue); border-radius: var(--border-radius); }
+.plan-name { font-size: 20px; font-weight: 600; color: var(--primary-blue); margin-bottom: 10px; }
+.plan-price { font-size: 42px; font-weight: 700; color: var(--dark-text); margin-bottom: 5px; }
+.plan-description { color: var(--light-text); font-size: 14px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border-gray); }
+.plan-features h3 { font-size: 16px; color: var(--dark-text); margin-bottom: 15px; text-align: left; }
+.plan-features ul { list-style: none; text-align: left; }
+.plan-features li { padding: 8px 0; color: var(--dark-text); display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.plan-features i { color: var(--success); width: 20px; }
+
+.payment-methods { background: var(--white); border-radius: var(--border-radius); padding: 30px; border: 1px solid var(--border-gray); }
+.payment-methods h2 { color: var(--dark-text); margin-bottom: 25px; font-size: 22px; }
+.methods-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 30px; }
+
+.method-card { display: block; cursor: pointer; border: 2px solid var(--border-gray); border-radius: var(--border-radius); transition: all 0.2s; }
+.method-card:hover { border-color: var(--primary-blue); background: var(--light-blue); }
+.method-card input[type="radio"] { display: none; }
+.method-content { display: flex; align-items: center; gap: 15px; padding: 15px 20px; }
+.method-icon { width: 40px; height: 40px; background: var(--light-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: var(--primary-blue); font-size: 20px; }
+.method-info { flex-grow: 1; }
+.method-name { font-weight: 600; color: var(--dark-text); margin-bottom: 3px; }
+.method-desc { font-size: 12px; color: var(--light-text); }
+.method-logos { display: flex; gap: 8px; align-items: center; font-size: 20px; color: var(--light-text); }
+
+.promo-code { margin: 30px 0; padding: 20px; background: var(--light-gray); border-radius: var(--border-radius); }
+.promo-code h3 { font-size: 16px; color: var(--dark-text); margin-bottom: 15px; }
+.promo-input-group { display: flex; gap: 10px; }
+.promo-input-group input { flex-grow: 1; padding: 12px 15px; border: 1px solid var(--border-gray); border-radius: 8px; font-size: 14px; }
+.btn-promo { padding: 12px 25px; background: var(--primary-blue); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500; transition: background 0.2s; }
+.btn-promo:hover { background: var(--secondary-blue); }
+
+.payment-total { margin-top: 30px; padding-top: 20px; border-top: 2px solid var(--border-gray); }
+.total-line { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 18px; color: var(--dark-text); }
+.total-amount { font-size: 28px; font-weight: 700; color: var(--primary-blue); }
+
+.btn-pay { width: 100%; padding: 16px; background: var(--success); color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-bottom: 15px; }
+.btn-pay:hover { background: #218838; }
+
+.payment-security { text-align: center; color: var(--light-text); font-size: 13px; }
+.payment-security i { color: var(--success); margin-right: 5px; }
+
+.payment-support { margin-top: 30px; padding: 20px; background: var(--light-blue); border-radius: var(--border-radius); text-align: center; }
+.payment-support p { color: var(--dark-text); margin-bottom: 15px; }
+.support-links { display: flex; gap: 15px; justify-content: center; }
+.support-link { display: flex; align-items: center; gap: 5px; padding: 8px 15px; background: white; border-radius: 25px; color: var(--dark-text); text-decoration: none; font-size: 14px; transition: all 0.2s; }
+.support-link:hover { background: var(--primary-blue); color: white; }
+
+/* ========== СКЕЛЕТОН ========== */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 8px;
+}
+
+@keyframes loading {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-card { height: 250px; width: 100%; border-radius: var(--border-radius); }
+
+/* ================================================
+   ТЁМНАЯ ТЕМА — ЧЁРНО-ЗОЛОТАЯ
+   ================================================ */
+
+.dark-theme {
+    /* Золото вместо синего */
+    --primary-blue:   #FFD700;
+    --secondary-blue: #FFC200;
+
+    /* Фоны */
+    --white:      #1a1a1a;
+    --light-gray: #222222;
+    --light-blue: #2a2500;   /* тёмно-золотой акцент фона */
+
+    /* Текст */
+    --dark-text:  #F5F0DC;
+    --light-text: #A89060;
+
+    /* Границы */
+    --border-gray: #3a3000;
+
+    /* Тени с золотым свечением */
+    --box-shadow: 0 4px 16px rgba(255, 215, 0, 0.08);
+}
+
+/* Фон страницы */
+.dark-theme body {
+    background-color: #111111;
+}
+
+/* Шапка */
+.dark-theme header {
+    background: #1a1a1a;
+    border-color: #3a3000;
+    box-shadow: 0 2px 12px rgba(255, 215, 0, 0.06);
+}
+
+/* Навигация */
+.dark-theme nav a {
+    color: #c8b070;
+}
+
+.dark-theme nav a:hover {
+    background: #2a2500;
+    color: #FFD700;
+}
+
+.dark-theme .user-menu {
+    background: #2a2500;
+    color: #FFD700 !important;
+    border: 1px solid #3a3000;
+}
+
+/* Лого */
+.dark-theme .logo h1 { color: #FFD700; }
+.dark-theme .logo span { color: #A89060; }
+
+/* Кнопки в шапке */
+.dark-theme .btn-login,
+.dark-theme .btn-register {
+    background: #FFD700;
+    color: #111111 !important;
+    font-weight: 700;
+}
+
+.dark-theme .btn-login:hover,
+.dark-theme .btn-register:hover {
+    background: #FFC200;
+}
+
+/* Тогл темы */
+.dark-theme .theme-toggle { color: #FFD700; }
+.dark-theme .theme-toggle .fa-sun  { display: inline-block; }
+.dark-theme .theme-toggle .fa-moon { display: none; }
+
+/* Белые блоки → тёмные */
+.dark-theme header,
+.dark-theme .car-card,
+.dark-theme .car-detail,
+.dark-theme .pricing-card,
+.dark-theme .advantage-card,
+.dark-theme .testimonial,
+.dark-theme .auth-card,
+.dark-theme .profile-container,
+.dark-theme .report-preview,
+.dark-theme .feature-item,
+.dark-theme .step,
+.dark-theme .not-found,
+.dark-theme .selected-plan,
+.dark-theme .payment-methods,
+.dark-theme .stats {
+    background-color: #1e1e1e;
+    border-color: #3a3000;
+}
+
+/* Серые секции */
+.dark-theme .hero { background: #1a1600; }
+.dark-theme .report-features { background: #161400; }
+.dark-theme .report-block { background: #222222; }
+.dark-theme .promo-code { background: #222222; }
+.dark-theme .plan-details { background: #2a2500; }
+.dark-theme .payment-support { background: #2a2500; }
+.dark-theme .pricing-card-header { background: #2a2500; border-color: #3a3000; }
+
+/* Текст */
+.dark-theme h1, .dark-theme h2, .dark-theme h3, .dark-theme h4 { color: #FFD700; }
+.dark-theme p { color: #c8b070; }
+.dark-theme .section-title { color: #FFD700; }
+.dark-theme .section-title span { color: #FFC200; }
+.dark-theme .stat-number { color: #FFD700; }
+.dark-theme .stat-label { color: #A89060; }
+.dark-theme .logo h1 { color: #FFD700; }
+
+/* Ссылки */
+.dark-theme .back-link { color: #FFD700; }
+.dark-theme .car-card-link { color: #FFD700; }
+.dark-theme .car-card-link:hover { color: #FFC200; }
+.dark-theme .auth-links a { color: #FFD700; }
+.dark-theme .auth-header i { color: #FFD700; }
+.dark-theme .profile-avatar i { color: #FFD700; }
+
+/* Иконки */
+.dark-theme .car-card p i,
+.dark-theme .feature-item i,
+.dark-theme .step i,
+.dark-theme .advantage-card i { color: #FFD700; }
+
+.dark-theme .step-number {
+    background: #FFD700;
+    color: #111111;
+}
+
+/* Кнопки */
+.dark-theme .btn-pricing,
+.dark-theme .hero-search button,
+.dark-theme .auth-btn,
+.dark-theme .btn-promo {
+    background: #FFD700;
+    color: #111111 !important;
+    font-weight: 700;
+}
+
+.dark-theme .btn-pricing:hover,
+.dark-theme .hero-search button:hover,
+.dark-theme .auth-btn:hover,
+.dark-theme .btn-promo:hover {
+    background: #FFC200;
+}
+
+.dark-theme .btn-cta {
+    background: #FFD700;
+    color: #111111;
+    font-weight: 700;
+}
+
+.dark-theme .btn-cta:hover { background: #FFC200; }
+
+.dark-theme .btn-pay {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    color: #111111;
+    font-weight: 700;
+}
+
+.dark-theme .btn-pay:hover {
+    background: linear-gradient(135deg, #FFC200, #FF8C00);
+}
+
+.dark-theme .btn-small {
+    background: #2a2500;
+    color: #FFD700;
+    border: 1px solid #3a3000;
+}
+
+.dark-theme .btn-small:hover {
+    background: #FFD700;
+    color: #111111;
+}
+
+.dark-theme .btn-outline-light {
+    border-color: #FFD700;
+    color: #FFD700;
+}
+
+.dark-theme .btn-outline-light:hover {
+    background: #FFD700;
+    color: #111111;
+}
+
+/* CTA секция */
+.dark-theme .cta {
+    background: linear-gradient(135deg, #1a1400, #2a2000);
+    border: 1px solid #3a3000;
+}
+
+/* Hero */
+.dark-theme .hero-search {
+    background: #222222;
+    box-shadow: 0 5px 20px rgba(255,215,0,0.1);
+}
+
+.dark-theme .hero-search input {
+    background: transparent;
+    color: #F5F0DC;
+}
+
+.dark-theme .hero-search input::placeholder { color: #A89060; }
+
+.dark-theme .recent-checks { background: rgba(255, 215, 0, 0.05); border: 1px solid #3a3000; }
+.dark-theme .recent-checks-label { color: #FFD700; }
+.dark-theme .recent-checks-marquee span {
+    background: #222222;
+    color: #F5F0DC;
+    border: 1px solid #3a3000;
+}
+
+/* Инпуты */
+.dark-theme input[type="text"],
+.dark-theme input[type="email"],
+.dark-theme input[type="password"],
+.dark-theme .promo-input-group input {
+    background: #222222;
+    color: #F5F0DC;
+    border: 1px solid #3a3000;
+}
+
+.dark-theme input:focus {
+    border-color: #FFD700 !important;
+    box-shadow: 0 0 0 2px rgba(255,215,0,0.15);
+}
+
+/* Карточки авто */
+.dark-theme .car-card-image { background: #2a2500; }
+
+/* Таблицы */
+.dark-theme .history-table th { background: #2a2500; color: #FFD700; }
+.dark-theme .history-table td { border-color: #3a3000; color: #c8b070; }
+.dark-theme .history-table code { background: #222222; color: #FFD700; border: 1px solid #3a3000; }
+
+/* Бейджи */
+.dark-theme .badge { background: #FFD700; color: #111111; }
+.dark-theme .popular-badge { background: #FFD700; color: #111111; }
+.dark-theme .premium-badge { background: #FFD700; color: #111111; }
+
+/* Карточка тарифа популярная */
+.dark-theme .pricing-card.popular { border-color: #FFD700; }
+.dark-theme .pricing-card:hover { border-color: #FFD700; box-shadow: 0 10px 30px rgba(255,215,0,0.15); }
+
+/* Метод оплаты */
+.dark-theme .method-card { border-color: #3a3000; }
+.dark-theme .method-card:hover { border-color: #FFD700; background: #2a2500; }
+.dark-theme .method-icon { background: #2a2500; color: #FFD700; }
+.dark-theme .method-name { color: #F5F0DC; }
+
+/* Support links */
+.dark-theme .support-link { background: #222222; color: #c8b070; border: 1px solid #3a3000; }
+.dark-theme .support-link:hover { background: #FFD700; color: #111111; }
+
+/* Скелетон */
+.dark-theme .skeleton {
+    background: linear-gradient(90deg, #1e1e1e 25%, #2a2500 50%, #1e1e1e 75%);
+    background-size: 200% 100%;
+}
+
+/* Футер */
+.dark-theme footer { border-color: #3a3000; color: #A89060; }
+
+/* Разделители */
+.dark-theme hr,
+.dark-theme [style*="border-bottom"],
+.dark-theme [style*="border-top"] {
+    border-color: #3a3000 !important;
+}
+
+/* Золотое свечение на hover у карточек */
+.dark-theme .advantage-card:hover,
+.dark-theme .car-card:hover,
+.dark-theme .step:hover {
+    box-shadow: 0 8px 25px rgba(255,215,0,0.15);
+    border-color: #FFD700;
+}
+
+/* ========== АДАПТИВНОСТЬ ========== */
+@media (max-width: 768px) {
+    header { flex-direction: column; text-align: center; gap: 15px; }
+    nav { justify-content: center; flex-wrap: wrap; }
+    .hero h1 { font-size: 32px; }
+    .hero-search { flex-direction: column; }
+    .hero-search button { width: 100%; }
+    .recent-checks { flex-direction: column; gap: 10px; }
+    .car-detail-grid, .payment-grid { grid-template-columns: 1fr; }
+    .pricing-grid, .advantages-grid, .testimonials-grid { grid-template-columns: 1fr; }
+    .profile-header { flex-direction: column; text-align: center; }
+    .stats { flex-direction: column; gap: 20px; }
+    .method-content { flex-wrap: wrap; }
+    .support-links { flex-wrap: wrap; }
+}
+
+@media (max-width: 480px) {
+    .hero h1 { font-size: 28px; }
+    .section-title { font-size: 24px; }
+    .car-card .car-card-content { padding: 15px; }
+    .theme-toggle { margin: 0 auto; }
+    .car-grid { grid-template-columns: 1fr; }
+    .auth-card { padding: 20px; }
+    .history-table { font-size: 14px; }
+    .history-table td, .history-table th { padding: 8px; }
+}

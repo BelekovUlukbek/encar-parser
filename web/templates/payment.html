@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block title %}Оплата - {{ plan_name }} - Auto Korea{% endblock %}
+
+{% block content %}
+<div class="payment-container">
+    <div class="payment-header">
+        <h1><i class="fas fa-lock" style="color: var(--success);"></i> Оформление подписки</h1>
+        <p>Оплатите через Mbank или О!Деньги и получите доступ в течение 1–2 часов</p>
+    </div>
+
+    <div class="payment-grid">
+
+        <!-- ===== ЛЕВАЯ КОЛОНКА: выбранный тариф ===== -->
+        <div class="selected-plan">
+            <h2><i class="fas fa-crown" style="color: var(--warning);"></i> Ваш тариф</h2>
+
+            <div class="plan-details">
+                <div class="plan-name">{{ plan_name }}</div>
+                <div class="plan-price">{{ price }} <span style="font-size:20px; font-weight:400;">сом</span></div>
+                <div class="plan-description">{{ instruction.searches_label }} • {{ instruction.days }} дн. доступа</div>
+
+                <div class="plan-features">
+                    <h3>Включено:</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> {{ instruction.searches_label }}</li>
+                        <li><i class="fas fa-check-circle"></i> История ДТП и пробегов</li>
+                        <li><i class="fas fa-check-circle"></i> Проверка залогов и ограничений</li>
+                        <li><i class="fas fa-check-circle"></i> Фото с корейских аукционов</li>
+                        <li><i class="fas fa-check-circle"></i> Доступ {{ instruction.days }} дней</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Код платежа -->
+            <div class="payment-id-box">
+                <div class="payment-id-label"><i class="fas fa-hashtag"></i> Ваш код платежа</div>
+                <div class="payment-id-value" id="paymentId">{{ instruction.payment_id }}</div>
+                <button class="copy-btn" onclick="copyPaymentId()">
+                    <i class="fas fa-copy"></i> Скопировать
+                </button>
+                <p class="payment-id-hint">Укажите этот код в комментарии при переводе</p>
+            </div>
+        </div>
+
+        <!-- ===== ПРАВАЯ КОЛОНКА: инструкция ===== -->
+        <div class="payment-methods">
+            <h2><i class="fas fa-mobile-alt"></i> Как оплатить</h2>
+
+            <!-- Пошаговая инструкция -->
+            <div class="steps-list">
+                {% for step in instruction.steps %}
+                <div class="pay-step">
+                    <div class="pay-step-icon">{{ step.icon }}</div>
+                    <div class="pay-step-body">
+                        <div class="pay-step-title">Шаг {{ step.num }}: {{ step.title }}</div>
+                        <div class="pay-step-text">{{ step.text | safe }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Реквизиты -->
+            <div class="requisites-box">
+                <h3><i class="fas fa-phone-alt"></i> Реквизиты для перевода</h3>
+                <div class="requisite-row">
+                    <div class="requisite-item">
+                        <div class="requisite-label">📱 Mbank</div>
+                        <div class="requisite-number" id="mbankNum">{{ instruction.mbank_number }}</div>
+                        <button class="copy-btn-small" onclick="copyText('{{ instruction.mbank_number }}', this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="requisite-item">
+                        <div class="requisite-label">💚 О!Деньги</div>
+                        <div class="requisite-number" id="odengiNum">{{ instruction.odengi_number }}</div>
+                        <button class="copy-btn-small" onclick="copyText('{{ instruction.odengi_number }}', this)">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Итого -->
+            <div class="payment-total">
+                <div class="total-line">
+                    <span>К оплате:</span>
+                    <span class="total-amount">{{ price }} сом</span>
+                </div>
+            </div>
+
+            <!-- Форма подтверждения -->
+            <form method="POST" action="/payment/confirm">
+                <input type="hidden" name="payment_id" value="{{ instruction.payment_id }}">
+                <input type="hidden" name="plan" value="{{ plan }}">
+
+                <button type="submit" class="btn-pay">
+                    <i class="fas fa-paper-plane"></i> Я оплатил — жду активации
+                </button>
+            </form>
+
+            <p class="payment-security">
+                <i class="fas fa-shield-alt"></i>
+                После нажатия мы получим уведомление и активируем тариф вручную
+            </p>
+
+            <!-- Связь -->
+            <div class="payment-support">
+                <p><i class="fas fa-headset"></i> Отправьте скриншот оплаты нам:</p>
+                <div class="support-links">
+                    <a href="{{ instruction.whatsapp_url }}" target="_blank" class="support-link whatsapp-link">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <a href="{{ instruction.telegram_url }}" target="_blank" class="support-link telegram-link">
+                        <i class="fab fa-telegram"></i> Telegram
+                    </a>
+                </div>
+                <p style="font-size: 12px; color: var(--light-text); margin-top: 10px;">
+                    Время активации: 09:00–22:00 (пн–вс), обычно в течение 30 минут
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+/* ===== PAYMENT ID BOX ===== */
+.payment-id-box {
+    margin-top: 25px;
+    padding: 20px;
+    background: #fff8e1;
+    border: 2px dashed #ffc107;
+    border-radius: 12px;
+    text-align: center;
+}
+.payment-id-label {
+    font-size: 13px;
+    color: var(--light-text);
+    margin-bottom: 8px;
+}
+.payment-id-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-family: monospace;
+}
+.payment-id-hint {
+    font-size: 12px;
+    color: var(--light-text);
+    margin-top: 8px;
+}
+
+/* ===== COPY BUTTONS ===== */
+.copy-btn {
+    padding: 8px 18px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+.copy-btn:hover { background: var(--secondary-blue); }
+.copy-btn-small {
+    padding: 4px 10px;
+    background: var(--light-blue);
+    color: var(--primary-blue);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+.copy-btn-small:hover { background: var(--primary-blue); color: white; }
+
+/* ===== STEPS ===== */
+.steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+.pay-step {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    padding: 15px;
+    background: var(--light-gray);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-blue);
+}
+.pay-step-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+.pay-step-title { font-weight: 600; color: var(--dark-text); margin-bottom: 4px; }
+.pay-step-text { font-size: 14px; color: var(--light-text); line-height: 1.5; }
+.pay-step-text a { color: var(--primary-blue); }
+
+/* ===== REQUISITES ===== */
+.requisites-box {
+    background: var(--light-blue);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+.requisites-box h3 {
+    font-size: 16px;
+    color: var(--dark-text);
+    margin-bottom: 15px;
+}
+.requisite-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+.requisite-item {
+    background: white;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+}
+.requisite-label { font-size: 13px; color: var(--light-text); margin-bottom: 6px; }
+.requisite-number {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 8px;
+    font-family: monospace;
+}
+
+/* ===== SUPPORT ===== */
+.whatsapp-link { color: #25D366 !important; }
+.whatsapp-link:hover { background: #25D366 !important; color: white !important; }
+.telegram-link { color: #0088cc !important; }
+.telegram-link:hover { background: #0088cc !important; color: white !important; }
+
+/* ===== АДАПТИВНОСТЬ ===== */
+@media (max-width: 768px) {
+    .payment-grid { grid-template-columns: 1fr; }
+    .requisite-row { grid-template-columns: 1fr; }
+    .payment-id-value { font-size: 22px; }
+}
+</style>
+
+<script>
+function copyPaymentId() {
+    const id = document.getElementById('paymentId').textContent;
+    navigator.clipboard.writeText(id).then(() => {
+        const btn = event.target.closest('button');
+        btn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+        btn.style.background = 'var(--success)';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-copy"></i> Скопировать';
+            btn.style.background = '';
+        }, 2000);
+    });
+}
+
+function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        btn.style.background = 'var(--success)';
+        btn.style.color = 'white';
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fas fa-copy"></i>';
+            btn.style.background = '';
+            btn.style.color = '';
+        }, 2000);
+    });
+}
+</script>
+
+{% endblock %}

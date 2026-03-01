@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+
+{% block title %}Подписки и тарифы - Auto Korea{% endblock %}
+
+{% block content %}
+<div class="pricing-container">
+    <div class="pricing-header">
+        <h1>Подписки</h1>
+        <p>Для пополнения баланса выберите необходимое количество отчетов и удобный способ оплаты. Оплатить отчеты возможно через банковскую карту, Мбанк или O!Банк.</p>
+    </div>
+
+    <div class="pricing-grid">
+        <!-- 1 отчет -->
+        <div class="pricing-card">
+            <div class="pricing-card-header">
+                <h3>1 отчет</h3>
+                <div class="badge">+3 дня доступа</div>
+            </div>
+            <div class="pricing-card-body">
+                <div class="price">449 Сом</div>
+                <div class="price-per-report">449 Сом за отчет</div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Полный отчет по VIN</li>
+                    <li><i class="fas fa-check-circle"></i> История ДТП</li>
+                    <li><i class="fas fa-check-circle"></i> Проверка пробега</li>
+                    <li><i class="fas fa-check-circle"></i> Залоги и ограничения</li>
+                </ul>
+                <a href="/payment?plan=1" class="btn-pricing">Выбрать</a>
+            </div>
+        </div>
+
+        <!-- 5 отчетов (популярное) -->
+        <div class="pricing-card popular">
+            <div class="popular-badge">Популярное</div>
+            <div class="pricing-card-header">
+                <h3>5 отчетов</h3>
+                <div class="badge">+3 дня доступа</div>
+            </div>
+            <div class="pricing-card-body">
+                <div class="price">1 493 Сом</div>
+                <div class="price-per-report">298.6 Сом за отчет</div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> 5 полных отчетов</li>
+                    <li><i class="fas fa-check-circle"></i> История ДТП</li>
+                    <li><i class="fas fa-check-circle"></i> Проверка пробега</li>
+                    <li><i class="fas fa-check-circle"></i> Залоги и ограничения</li>
+                    <li><i class="fas fa-check-circle"></i> Экономия 30%</li>
+                </ul>
+                <a href="/payment?plan=5" class="btn-pricing">Выбрать</a>
+            </div>
+        </div>
+
+        <!-- 50 отчетов -->
+        <div class="pricing-card">
+            <div class="pricing-card-header">
+                <h3>50 отчетов</h3>
+                <div class="badge">+3 дня доступа</div>
+            </div>
+            <div class="pricing-card-body">
+                <div class="price">5 390 Сом</div>
+                <div class="price-per-report">107.8 Сом за отчет</div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> 50 полных отчетов</li>
+                    <li><i class="fas fa-check-circle"></i> История ДТП</li>
+                    <li><i class="fas fa-check-circle"></i> Проверка пробега</li>
+                    <li><i class="fas fa-check-circle"></i> Залоги и ограничения</li>
+                    <li><i class="fas fa-check-circle"></i> Экономия 75%</li>
+                </ul>
+                <a href="/payment?plan=50" class="btn-pricing">Выбрать</a>
+            </div>
+        </div>
+
+        <!-- Поиск Авто 7 дней -->
+        <div class="pricing-card">
+            <div class="pricing-card-header">
+                <h3>«Поиск Авто»</h3>
+                <div class="badge">7 дней доступа</div>
+            </div>
+            <div class="pricing-card-body">
+                <div class="price">300 Сом</div>
+                <div class="price-per-report">Поиск по всем доскам объявлений</div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Неограниченный поиск</li>
+                    <li><i class="fas fa-check-circle"></i> Все доски объявлений</li>
+                    <li><i class="fas fa-check-circle"></i> Уведомления о новых</li>
+                    <li><i class="fas fa-check-circle"></i> Сохранение поиска</li>
+                </ul>
+                <a href="/payment?plan=search7" class="btn-pricing">Выбрать</a>
+            </div>
+        </div>
+
+        <!-- Поиск Авто 14 дней -->
+        <div class="pricing-card">
+            <div class="pricing-card-header">
+                <h3>«Поиск Авто»</h3>
+                <div class="badge">14 дней доступа</div>
+            </div>
+            <div class="pricing-card-body">
+                <div class="price">500 Сом</div>
+                <div class="price-per-report">Поиск по всем доскам объявлений</div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Неограниченный поиск</li>
+                    <li><i class="fas fa-check-circle"></i> Все доски объявлений</li>
+                    <li><i class="fas fa-check-circle"></i> Уведомления о новых</li>
+                    <li><i class="fas fa-check-circle"></i> Сохранение поиска</li>
+                    <li><i class="fas fa-check-circle"></i> Приоритетная поддержка</li>
+                </ul>
+                <a href="/payment?plan=search14" class="btn-pricing">Выбрать</a>
+            </div>
+        </div>
+
+        <!-- Поиск Авто 30 дней -->
+        <div class="pricing-card">
+            <div class="pricing-card-header">
+                <h3>«Поиск Авто»</h3>
+                <div class="badge">30 дней доступа</div>
+            </div>
+            <div class="pricing-card-body">
+                <div class="price">700 Сом</div>
+                <div class="price-per-report">Поиск по всем доскам объявлений</div>
+                <ul class="features">
+                    <li><i class="fas fa-check-circle"></i> Неограниченный поиск</li>
+                    <li><i class="fas fa-check-circle"></i> Все доски объявлений</li>
+                    <li><i class="fas fa-check-circle"></i> Уведомления о новых</li>
+                    <li><i class="fas fa-check-circle"></i> Сохранение поиска</li>
+                    <li><i class="fas fa-check-circle"></i> Приоритетная поддержка</li>
+                    <li><i class="fas fa-check-circle"></i> Лучшая цена</li>
+                </ul>
+                <a href="/payment?plan=search30" class="btn-pricing">Выбрать</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.pricing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.pricing-header h1 {
+    font-size: 36px;
+    color: var(--primary-blue);
+    margin-bottom: 15px;
+}
+
+.pricing-header p {
+    color: var(--light-text);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.pricing-card {
+    background: white;
+    border-radius: 15px;
+    border: 1px solid var(--border-gray);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-blue);
+}
+
+.pricing-card.popular {
+    border: 2px solid var(--primary-blue);
+    transform: scale(1.02);
+}
+
+.popular-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--primary-blue);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 1;
+}
+
+.pricing-card-header {
+    background: var(--light-blue);
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-gray);
+}
+
+.pricing-card-header h3 {
+    font-size: 24px;
+    color: var(--primary-blue);
+    margin-bottom: 10px;
+}
+
+.badge {
+    display: inline-block;
+    background: var(--primary-blue);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.pricing-card-body {
+    padding: 30px 25px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.price {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--dark-text);
+    margin-bottom: 5px;
+}
+
+.price-per-report {
+    color: var(--light-text);
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-gray);
+}
+
+.features {
+    list-style: none;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.features li {
+    padding: 8px 0;
+    color: var(--dark-text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.features li i {
+    color: var(--success);
+    font-size: 16px;
+    width: 20px;
+}
+
+.btn-pricing {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: auto;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-pricing:hover {
+    background: var(--secondary-blue);
+    color: white;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .pricing-card.popular {
+        transform: scale(1);
+    }
+    
+    .pricing-header h1 {
+        font-size: 28px;
+    }
+}
+</style>
+{% endblock %}

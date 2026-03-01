@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}Профиль - {{ user.username }} - Auto Korea{% endblock %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 30px auto;">
+
+    <!-- ===== ШАПКА ПРОФИЛЯ ===== -->
+    <div style="background:white; border-radius:16px; border:1px solid var(--border-gray); padding:30px; margin-bottom:20px; box-shadow:var(--box-shadow);">
+        <div style="display:flex; gap:25px; align-items:center; flex-wrap:wrap;">
+
+            <!-- Аватар -->
+            <div style="width:90px; height:90px; background:var(--light-blue); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:40px; color:var(--primary-blue); flex-shrink:0;">
+                {{ user.username[0].upper() }}
+            </div>
+
+            <!-- Инфо -->
+            <div style="flex:1; min-width:200px;">
+                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
+                    <h2 style="font-size:24px; color:var(--dark-text); margin:0;">{{ user.username }}</h2>
+                    {% if user.is_premium %}
+                        <span style="background:linear-gradient(135deg,#f1c40f,#f39c12); color:white; padding:4px 14px; border-radius:20px; font-size:13px; font-weight:600;">
+                            ⭐ Premium
+                        </span>
+                    {% else %}
+                        <span style="background:var(--light-gray); color:var(--light-text); padding:4px 14px; border-radius:20px; font-size:13px;">
+                            Бесплатный
+                        </span>
+                    {% endif %}
+                </div>
+                <p style="color:var(--light-text); font-size:14px; margin:4px 0;">
+                    <i class="fas fa-envelope" style="color:var(--primary-blue); width:16px;"></i> {{ user.email }}
+                </p>
+                <p style="color:var(--light-text); font-size:14px; margin:4px 0;">
+                    <i class="fas fa-calendar" style="color:var(--primary-blue); width:16px;"></i>
+                    Зарегистрирован {{ user.created_at.strftime('%d.%m.%Y') }}
+                </p>
+            </div>
+
+            <!-- Кнопка оформить если не премиум -->
+            {% if not user.is_premium %}
+            <a href="/pricing"
+               style="padding:12px 24px; background:linear-gradient(135deg,#f1c40f,#f39c12); color:white; border-radius:30px; text-decoration:none; font-weight:600; font-size:14px; white-space:nowrap;">
+                <i class="fas fa-crown"></i> Оформить Premium
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ===== КАРТОЧКИ СТАТУСА ===== -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:15px; margin-bottom:20px;">
+
+        <!-- Статус тарифа -->
+        <div style="background:white; border-radius:14px; border:1px solid var(--border-gray); padding:20px; box-shadow:var(--box-shadow);">
+            <div style="font-size:12px; color:var(--light-text); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">
+                <i class="fas fa-tag"></i> Тариф
+            </div>
+            {% if user.is_premium %}
+                <div style="font-size:20px; font-weight:700; color:#f39c12;">⭐ Premium</div>
+                {% if user.premium_until %}
+                <div style="font-size:13px; color:var(--light-text); margin-top:4px;">
+                    до {{ user.premium_until.strftime('%d.%m.%Y') }}
+                </div>
+                {% endif %}
+            {% else %}
+                <div style="font-size:20px; font-weight:700; color:var(--dark-text);">Бесплатный</div>
+                <div style="font-size:13px; color:var(--light-text); margin-top:4px;">3 поиска в день</div>
+            {% endif %}
+        </div>
+
+        <!-- Поисков осталось -->
+        <div style="background:white; border-radius:14px; border:1px solid var(--border-gray); padding:20px; box-shadow:var(--box-shadow);">
+            <div style="font-size:12px; color:var(--light-text); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">
+                <i class="fas fa-search"></i> Поисков осталось
+            </div>
+            {% if user.is_premium %}
+                <div style="font-size:28px; font-weight:700; color:var(--success);">
+                    {{ user.searches_left if user.searches_left else 0 }}
+                </div>
+                <div style="font-size:13px; color:var(--light-text); margin-top:4px;">в вашем тарифе</div>
+            {% else %}
+                <div style="font-size:28px; font-weight:700; color:var(--primary-blue);">
+                    {{ [0, 3 - user.searches_count]|max }}
+                </div>
+                <div style="font-size:13px; color:var(--light-text); margin-top:4px;">из 3 бесплатных</div>
+            {% endif %}
+        </div>
+
+        <!-- Всего поисков -->
+        <div style="background:white; border-radius:14px; border:1px solid var(--border-gray); padding:20px; box-shadow:var(--box-shadow);">
+            <div style="font-size:12px; color:var(--light-text); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">
+                <i class="fas fa-history"></i> Всего проверок
+            </div>
+            <div style="font-size:28px; font-weight:700; color:var(--primary-blue);">{{ searches|length }}</div>
+            <div style="font-size:13px; color:var(--light-text); margin-top:4px;">за всё время</div>
+        </div>
+
+    </div>
+
+    <!-- ===== ЕСЛИ PREMIUM — показываем детали тарифа ===== -->
+    {% if user.is_premium and user.premium_until %}
+    <div style="background:#fff8e1; border:1px solid #ffc107; border-radius:14px; padding:18px 22px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:15px;">
+        <div>
+            <div style="font-weight:600; color:#856404; margin-bottom:4px;">
+                <i class="fas fa-crown"></i> Premium активен
+            </div>
+            <div style="font-size:14px; color:#856404;">
+                Действует до <strong>{{ user.premium_until.strftime('%d.%m.%Y в %H:%M') }}</strong>
+                — осталось поисков: <strong>{{ user.searches_left }}</strong>
+            </div>
+        </div>
+        <a href="/pricing"
+           style="padding:10px 20px; background:#f39c12; color:white; border-radius:25px; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap;">
+            <i class="fas fa-plus"></i> Продлить
+        </a>
+    </div>
+    {% endif %}
+
+    <!-- ===== ИСТОРИЯ ПОИСКОВ ===== -->
+    <div style="background:white; border-radius:16px; border:1px solid var(--border-gray); overflow:hidden; box-shadow:var(--box-shadow);">
+        <div style="padding:18px 25px; border-bottom:1px solid var(--border-gray); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <h3 style="font-size:17px; color:var(--dark-text); margin:0;">
+                <i class="fas fa-history" style="color:var(--primary-blue);"></i> История поисков
+            </h3>
+            {% if searches %}
+            <span style="font-size:13px; color:var(--light-text);">Последние {{ searches|length }} запросов</span>
+            {% endif %}
+        </div>
+
+        {% if searches %}
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse;">
+                <thead>
+                    <tr style="background:var(--light-blue);">
+                        <th style="padding:11px 20px; text-align:left; font-size:13px; color:var(--primary-blue); font-weight:600;">VIN номер</th>
+                        <th style="padding:11px 20px; text-align:left; font-size:13px; color:var(--primary-blue); font-weight:600;">Дата</th>
+                        <th style="padding:11px 20px; text-align:left; font-size:13px; color:var(--primary-blue); font-weight:600;">Источник</th>
+                        <th style="padding:11px 20px; text-align:center; font-size:13px; color:var(--primary-blue); font-weight:600;">Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for s in searches %}
+                    <tr style="border-bottom:1px solid var(--border-gray); transition:background 0.15s;"
+                        onmouseover="this.style.background='#f9fafb'"
+                        onmouseout="this.style.background=''">
+                        <td style="padding:12px 20px;">
+                            <code style="background:var(--light-gray); padding:4px 10px; border-radius:6px; font-size:13px; color:var(--dark-text); letter-spacing:0.5px;">
+                                {{ s.vin }}
+                            </code>
+                        </td>
+                        <td style="padding:12px 20px; font-size:13px; color:var(--light-text); white-space:nowrap;">
+                            {{ s.searched_at.strftime('%d.%m.%Y') }}
+                            <span style="font-size:12px;">{{ s.searched_at.strftime('%H:%M') }}</span>
+                        </td>
+                        <td style="padding:12px 20px;">
+                            {% if s.source == 'api' %}
+                            <span style="background:var(--light-blue); color:var(--primary-blue); padding:3px 10px; border-radius:20px; font-size:12px;">
+                                <i class="fas fa-globe"></i> Encar
+                            </span>
+                            {% else %}
+                            <span style="background:#e8f5e9; color:#2e7d32; padding:3px 10px; border-radius:20px; font-size:12px;">
+                                <i class="fas fa-database"></i> База
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td style="padding:12px 20px; text-align:center;">
+                            <a href="/search?vin={{ s.vin }}"
+                               style="padding:6px 16px; background:var(--light-blue); color:var(--primary-blue); border-radius:20px; text-decoration:none; font-size:13px; font-weight:500; transition:background 0.2s;"
+                               onmouseover="this.style.background='var(--primary-blue)'; this.style.color='white';"
+                               onmouseout="this.style.background='var(--light-blue)'; this.style.color='var(--primary-blue)';">
+                                <i class="fas fa-redo"></i> Повторить
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% else %}
+        <div style="text-align:center; padding:50px 20px; color:var(--light-text);">
+            <div style="font-size:48px; margin-bottom:15px; opacity:0.3;">🔍</div>
+            <p style="font-size:16px; margin-bottom:8px; color:var(--dark-text);">История поисков пуста</p>
+            <p style="font-size:14px; margin-bottom:25px;">Введите VIN автомобиля чтобы начать</p>
+            <a href="/"
+               style="padding:12px 28px; background:var(--primary-blue); color:white; border-radius:25px; text-decoration:none; font-weight:600; font-size:14px;">
+                <i class="fas fa-search"></i> Найти автомобиль
+            </a>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- ===== БЛОК ТАРИФОВ (если не премиум) ===== -->
+    {% if not user.is_premium %}
+    <div style="background:linear-gradient(135deg, var(--primary-blue), var(--secondary-blue)); border-radius:16px; padding:30px; margin-top:20px; text-align:center; color:white;">
+        <div style="font-size:32px; margin-bottom:10px;">🚀</div>
+        <h3 style="font-size:20px; margin-bottom:8px;">Получите больше возможностей</h3>
+        <p style="opacity:0.9; margin-bottom:20px; font-size:14px;">
+            Полная история ДТП, неограниченный поиск и фото с корейских аукционов
+        </p>
+        <a href="/pricing"
+           style="display:inline-block; padding:13px 32px; background:white; color:var(--primary-blue); border-radius:30px; text-decoration:none; font-weight:700; font-size:15px; transition:transform 0.2s;"
+           onmouseover="this.style.transform='scale(1.05)'"
+           onmouseout="this.style.transform='scale(1)'">
+            <i class="fas fa-crown"></i> Выбрать тариф — от 300 сом
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Auto Korea - Поиск авто из Кореи{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <h1><i class="fas fa-car"></i> Auto Korea <span>поиск по VIN</span></h1>
+            </div>
+            <nav>
+                <a href="/"><i class="fas fa-home"></i> Главная</a>
+                <a href="/pricing"><i class="fas fa-tag"></i> Подписки</a>
+                {% if current_user.is_authenticated %}
+                    <a href="/profile" class="user-menu"><i class="fas fa-user-circle"></i> {{ current_user.username }}</a>
+                    <a href="/logout"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+                {% else %}
+                    <a href="/login" class="btn-login"><i class="fas fa-sign-in-alt"></i> Вход</a>
+                    <a href="/register" class="btn-register"><i class="fas fa-user-plus"></i> Регистрация</a>
+                {% endif %}
+                <!-- Кнопка переключения темы -->
+                <button id="theme-toggle" class="theme-toggle" aria-label="Переключить тему">
+                    <i class="fas fa-sun"></i>
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <main>{% block content %}{% endblock %}</main>
+
+        <footer>
+            <p>© 2025 Auto Korea - База корейских автомобилей | Бесплатно: 3 поиска в день</p>
+        </footer>
+    </div>
+
+    <script>
+        // Переключение темы
+        (function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const sunIcon = themeToggle.querySelector('.fa-sun');
+            const moonIcon = themeToggle.querySelector('.fa-moon');
+
+            // Проверяем сохранённую тему в localStorage
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-theme');
+                sunIcon.style.display = 'inline-block';
+                moonIcon.style.display = 'none';
+            } else {
+                body.classList.remove('dark-theme');
+                sunIcon.style.display = 'none';
+                moonIcon.style.display = 'inline-block';
+            }
+
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-theme');
+                const isDark = body.classList.contains('dark-theme');
+                if (isDark) {
+                    sunIcon.style.display = 'inline-block';
+                    moonIcon.style.display = 'none';
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    sunIcon.style.display = 'none';
+                    moonIcon.style.display = 'inline-block';
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

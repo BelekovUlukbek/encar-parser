@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block title %}Админ-панель - Auto Korea{% endblock %}
+
+{% block content %}
+<div style="max-width: 1100px; margin: 30px auto;">
+
+    <!-- Заголовок -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; flex-wrap:wrap; gap:15px;">
+        <div>
+            <h1 style="color:var(--primary-blue); margin-bottom:5px;">
+                <i class="fas fa-shield-alt"></i> Админ-панель
+            </h1>
+            <p style="color:var(--light-text); font-size:14px;">Управление пользователями и тарифами</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <a href="/" style="padding:8px 18px; background:var(--light-blue); color:var(--primary-blue); border-radius:20px; text-decoration:none; font-size:14px;">
+                <i class="fas fa-home"></i> На сайт
+            </a>
+        </div>
+    </div>
+
+    <!-- Уведомление об успехе/ошибке -->
+    <div id="notification" style="display:none; padding:15px 20px; border-radius:10px; margin-bottom:20px; font-weight:500;"></div>
+
+    <!-- Статистика -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:15px; margin-bottom:30px;">
+        <div style="background:white; border-radius:12px; padding:20px; border:1px solid var(--border-gray); text-align:center;">
+            <div style="font-size:32px; font-weight:700; color:var(--primary-blue);">{{ users|length }}</div>
+            <div style="color:var(--light-text); font-size:14px;">Всего пользователей</div>
+        </div>
+        <div style="background:white; border-radius:12px; padding:20px; border:1px solid var(--border-gray); text-align:center;">
+            <div style="font-size:32px; font-weight:700; color:#f39c12;">{{ users|selectattr('is_premium')|list|length }}</div>
+            <div style="color:var(--light-text); font-size:14px;">Premium пользователей</div>
+        </div>
+        <div style="background:white; border-radius:12px; padding:20px; border:1px solid var(--border-gray); text-align:center;">
+            <div style="font-size:32px; font-weight:700; color:var(--success);">{{ users|rejectattr('is_premium')|list|length }}</div>
+            <div style="color:var(--light-text); font-size:14px;">Бесплатных</div>
+        </div>
+    </div>
+
+    <!-- Таблица пользователей -->
+    <div style="background:white; border-radius:14px; border:1px solid var(--border-gray); overflow:hidden;">
+        <div style="padding:20px 25px; border-bottom:1px solid var(--border-gray); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <h2 style="font-size:18px; color:var(--dark-text);">
+                <i class="fas fa-users"></i> Пользователи
+            </h2>
+            <input type="text" id="searchInput" placeholder="Поиск по имени или email..."
+                   onkeyup="filterUsers()"
+                   style="padding:8px 15px; border:1px solid var(--border-gray); border-radius:20px; font-size:14px; outline:none; width:250px;">
+        </div>
+
+        <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse;" id="usersTable">
+                <thead>
+                    <tr style="background:var(--light-blue);">
+                        <th style="padding:12px 15px; text-align:left; color:var(--primary-blue); font-size:13px;">ID</th>
+                        <th style="padding:12px 15px; text-align:left; color:var(--primary-blue); font-size:13px;">Пользователь</th>
+                        <th style="padding:12px 15px; text-align:left; color:var(--primary-blue); font-size:13px;">Email</th>
+                        <th style="padding:12px 15px; text-align:left; color:var(--primary-blue); font-size:13px;">Статус</th>
+                        <th style="padding:12px 15px; text-align:left; color:var(--primary-blue); font-size:13px;">Поисков</th>
+                        <th style="padding:12px 15px; text-align:left; color:var(--primary-blue); font-size:13px;">Дата регистрации</th>
+                        <th style="padding:12px 15px; text-align:left; color:var(--primary-blue); font-size:13px;">Активировать тариф</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr style="border-bottom:1px solid var(--border-gray); transition:background 0.2s;" 
+                        onmouseover="this.style.background='#f9fafb'" 
+                        onmouseout="this.style.background=''"
+                        class="user-row">
+                        <td style="padding:12px 15px; color:var(--light-text); font-size:13px;">#{{ user.id }}</td>
+                        <td style="padding:12px 15px;">
+                            <div style="font-weight:600; color:var(--dark-text);">{{ user.username }}</div>
+                        </td>
+                        <td style="padding:12px 15px; color:var(--light-text); font-size:13px;">{{ user.email }}</td>
+                        <td style="padding:12px 15px;">
+                            {% if user.is_premium %}
+                                <span style="background:#fff8e1; color:#f39c12; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">
+                                    ⭐ Premium
+                                </span>
+                                {% if user.premium_until %}
+                                <div style="font-size:11px; color:var(--light-text); margin-top:4px;">
+                                    до {{ user.premium_until.strftime('%d.%m.%Y') }}
+                                </div>
+                                {% endif %}
+                            {% else %}
+                                <span style="background:var(--light-gray); color:var(--light-text); padding:4px 12px; border-radius:20px; font-size:12px;">
+                                    Бесплатный
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td style="padding:12px 15px; font-size:13px; color:var(--dark-text);">
+                            {% if user.is_premium %}
+                                <span style="color:var(--success);">осталось: {{ user.searches_left }}</span>
+                            {% else %}
+                                использовано: {{ user.searches_count }}/3
+                            {% endif %}
+                        </td>
+                        <td style="padding:12px 15px; color:var(--light-text); font-size:13px;">
+                            {{ user.created_at.strftime('%d.%m.%Y') }}
+                        </td>
+                        <td style="padding:12px 15px;">
+                            <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                <select id="plan_{{ user.id }}" 
+                                        style="padding:6px 10px; border:1px solid var(--border-gray); border-radius:8px; font-size:12px; outline:none; cursor:pointer;">
+                                    {% for plan_id, plan_name in plan_names.items() %}
+                                    <option value="{{ plan_id }}">{{ plan_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button onclick="activatePlan({{ user.id }}, '{{ user.username }}')"
+                                        style="padding:6px 14px; background:var(--primary-blue); color:white; border:none; border-radius:8px; font-size:12px; cursor:pointer; transition:background 0.2s; white-space:nowrap;"
+                                        onmouseover="this.style.background='var(--secondary-blue)'"
+                                        onmouseout="this.style.background='var(--primary-blue)'"
+                                        id="btn_{{ user.id }}">
+                                    <i class="fas fa-check"></i> Активировать
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" style="padding:40px; text-align:center; color:var(--light-text);">
+                            <i class="fas fa-users" style="font-size:32px; margin-bottom:10px; display:block; opacity:0.3;"></i>
+                            Пользователей пока нет
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Подсказка как открыть панель -->
+    <div style="margin-top:20px; padding:15px 20px; background:#fff8e1; border-radius:10px; border-left:4px solid #ffc107; font-size:13px; color:#856404;">
+        <i class="fas fa-info-circle"></i>
+        <strong>Как открыть панель:</strong> 
+        В браузере перейди по адресу 
+        <code style="background:#fff3cd; padding:2px 6px; border-radius:4px;">/admin?key=ТвойSECRET_KEY</code>
+        — ключ из файла <code>.env</code>
+    </div>
+</div>
+
+<script>
+const ADMIN_KEY = "{{ admin_key }}";
+
+async function activatePlan(userId, username) {
+    const plan = document.getElementById('plan_' + userId).value;
+    const btn = document.getElementById('btn_' + userId);
+
+    // Подтверждение
+    const planSelect = document.getElementById('plan_' + userId);
+    const planName = planSelect.options[planSelect.selectedIndex].text;
+    if (!confirm(`Активировать тариф "${planName}" для пользователя ${username}?`)) return;
+
+    // Блокируем кнопку
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Активирую...';
+
+    try {
+        const formData = new FormData();
+        formData.append('key', ADMIN_KEY);
+        formData.append('user_id', userId);
+        formData.append('plan', plan);
+
+        const response = await fetch('/admin/activate', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+            showNotification(result.message, 'success');
+            btn.innerHTML = '<i class="fas fa-check"></i> Активировано!';
+            btn.style.background = 'var(--success)';
+            // Перезагружаем страницу через 2 секунды чтобы обновить статусы
+            setTimeout(() => location.reload(), 2000);
+        } else {
+            showNotification('❌ Ошибка: ' + (result.error || 'Неизвестная ошибка'), 'error');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check"></i> Активировать';
+        }
+    } catch (e) {
+        showNotification('❌ Ошибка соединения', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-check"></i> Активировать';
+    }
+}
+
+function showNotification(message, type) {
+    const el = document.getElementById('notification');
+    el.textContent = message;
+    el.style.display = 'block';
+    if (type === 'success') {
+        el.style.background = '#d4edda';
+        el.style.color = '#155724';
+        el.style.border = '1px solid #c3e6cb';
+    } else {
+        el.style.background = '#f8d7da';
+        el.style.color = '#721c24';
+        el.style.border = '1px solid #f5c6cb';
+    }
+    // Скрываем через 5 секунд
+    setTimeout(() => el.style.display = 'none', 5000);
+}
+
+function filterUsers() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const rows = document.querySelectorAll('.user-row');
+    rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+    });
+}
+</script>
+
+{% endblock %}

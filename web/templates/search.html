@@ -1,0 +1,304 @@
+{% extends "base.html" %}
+
+{% block title %}Результаты поиска "{{ query }}" - Auto Korea{% endblock %}
+
+{% block content %}
+<div style="max-width: 1000px; margin: 0 auto;">
+
+    <!-- Навигация и строка поиска -->
+    <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px; flex-wrap:wrap;">
+        <a href="/" class="back-link" style="white-space:nowrap;">
+            <i class="fas fa-arrow-left"></i> Назад
+        </a>
+        <form action="/search" method="get" style="flex:1; display:flex; gap:10px; min-width:200px;">
+            <input type="text" name="vin" value="{{ query }}"
+                   placeholder="Введите VIN..."
+                   style="flex:1; padding:10px 18px; border:1px solid var(--border-gray); border-radius:25px; font-size:15px; outline:none;">
+            <button type="submit"
+                    style="padding:10px 22px; background:var(--primary-blue); color:white; border:none; border-radius:25px; cursor:pointer; font-weight:600;">
+                <i class="fas fa-search"></i> Найти
+            </button>
+        </form>
+    </div>
+
+    <!-- Счётчик поисков -->
+    {% if searches_left is not none %}
+    <div style="margin-bottom:20px; padding:12px 18px; border-radius:10px;
+        {% if searches_left == '∞' or searches_left > 1 %}
+            background:#d4edda; color:#155724; border:1px solid #c3e6cb;
+        {% elif searches_left == 1 %}
+            background:#fff3cd; color:#856404; border:1px solid #ffeeba;
+        {% else %}
+            background:#f8d7da; color:#721c24; border:1px solid #f5c6cb;
+        {% endif %}
+        font-size:14px;">
+        {% if searches_left == '∞' %}
+            <i class="fas fa-infinity"></i> У вас безлимитный доступ
+        {% elif searches_left > 0 %}
+            <i class="fas fa-search"></i> Осталось поисков: <strong>{{ searches_left }}</strong>
+            {% if searches_left == 1 %} — последний бесплатный поиск! <a href="/pricing" style="color:inherit; font-weight:600;">Оформить тариф →</a>{% endif %}
+        {% else %}
+            <i class="fas fa-lock"></i> Лимит исчерпан.
+            <a href="/pricing" style="color:inherit; font-weight:600; text-decoration:underline;">Оформить тариф →</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- ===== НАЙДЕНО ===== -->
+    {% if cars %}
+
+        <p style="color:var(--light-text); font-size:14px; margin-bottom:20px;">
+            <i class="fas fa-check-circle" style="color:var(--success);"></i>
+            Найдено автомобилей: <strong>{{ cars|length }}</strong> по запросу «{{ query }}»
+            {% if source == 'api' %}
+                <span style="background:var(--light-blue); color:var(--primary-blue); padding:2px 10px; border-radius:20px; font-size:12px; margin-left:8px;">
+                    <i class="fas fa-globe"></i> Данные с Encar
+                </span>
+            {% else %}
+                <span style="background:#e8f5e9; color:#2e7d32; padding:2px 10px; border-radius:20px; font-size:12px; margin-left:8px;">
+                    <i class="fas fa-database"></i> Из базы данных
+                </span>
+            {% endif %}
+        </p>
+
+        {% for car in cars %}
+        <div style="background:white; border-radius:16px; border:1px solid var(--border-gray); overflow:hidden; margin-bottom:25px; box-shadow:var(--box-shadow);">
+
+            <!-- Заголовок карточки -->
+            <div style="background:var(--light-blue); padding:18px 25px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <div>
+                    <h2 style="color:var(--primary-blue); font-size:22px; margin-bottom:4px;">
+                        {% if car.manufacturer == 'Hyundai' %}🔵
+                        {% elif car.manufacturer == 'Kia' %}🔴
+                        {% elif car.manufacturer == 'Genesis' %}👑
+                        {% else %}🚗{% endif %}
+                        {{ car.manufacturer }} {{ car.model }}
+                        {% if car.year %}({{ car.year }}){% endif %}
+                    </h2>
+                    {% if car.vin %}
+                    <div style="font-family:monospace; font-size:13px; color:var(--light-text); letter-spacing:1px;">
+                        VIN: {{ car.vin }}
+                    </div>
+                    {% endif %}
+                </div>
+                {% if car.price %}
+                <div style="text-align:right;">
+                    <div style="font-size:22px; font-weight:700; color:var(--primary-blue);">
+                        {% if car.price_usd %}
+                            ${{ "{:,.0f}".format(car.price_usd) }}
+                        {% else %}
+                            {{ "{:,.0f}".format(car.price) }} ₩
+                        {% endif %}
+                    </div>
+                    <div style="font-size:12px; color:var(--light-text);">Цена в Корее</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0;">
+
+                <!-- Левая часть: фото + характеристики -->
+                <div style="padding:20px 25px; border-right:1px solid var(--border-gray);">
+
+                    <!-- Фото -->
+                    {% if car.images and car.images|length > 0 %}
+                    <div style="margin-bottom:20px;">
+                        <img src="{{ car.images[0] }}" alt="{{ car.manufacturer }} {{ car.model }}"
+                             style="width:100%; height:200px; object-fit:cover; border-radius:10px; background:var(--light-blue);"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div style="display:none; width:100%; height:200px; background:var(--light-blue); border-radius:10px; align-items:center; justify-content:center; font-size:48px; color:var(--primary-blue);">
+                            🚗
+                        </div>
+                        {% if car.images|length > 1 %}
+                        <div style="display:flex; gap:8px; margin-top:8px; overflow-x:auto; padding-bottom:4px;">
+                            {% for img in car.images[1:5] %}
+                            <img src="{{ img }}" alt="фото {{ loop.index }}"
+                                 style="width:70px; height:55px; object-fit:cover; border-radius:6px; flex-shrink:0; cursor:pointer; border:2px solid transparent; transition:border 0.2s;"
+                                 onmouseover="this.style.borderColor='var(--primary-blue)'"
+                                 onmouseout="this.style.borderColor='transparent'"
+                                 onclick="document.querySelector('.main-photo-{{ loop.index0 }}').src=this.src">
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <div style="width:100%; height:180px; background:var(--light-blue); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:56px; margin-bottom:20px;">
+                        🚗
+                    </div>
+                    {% endif %}
+
+                    <!-- Основные характеристики -->
+                    <h3 style="font-size:15px; color:var(--dark-text); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border-gray);">
+                        <i class="fas fa-list" style="color:var(--primary-blue);"></i> Характеристики
+                    </h3>
+                    <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                        {% if car.year %}
+                        <tr style="border-bottom:1px solid #f0f0f0;">
+                            <td style="padding:7px 0; color:var(--light-text); width:45%;">📅 Год</td>
+                            <td style="padding:7px 0; font-weight:500; color:var(--dark-text);">{{ car.year }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if car.mileage %}
+                        <tr style="border-bottom:1px solid #f0f0f0;">
+                            <td style="padding:7px 0; color:var(--light-text);">🛣️ Пробег</td>
+                            <td style="padding:7px 0; font-weight:500; color:var(--dark-text);">{{ "{:,.0f}".format(car.mileage) }} км</td>
+                        </tr>
+                        {% endif %}
+                        {% if car.fuel_type %}
+                        <tr style="border-bottom:1px solid #f0f0f0;">
+                            <td style="padding:7px 0; color:var(--light-text);">⛽ Топливо</td>
+                            <td style="padding:7px 0; font-weight:500; color:var(--dark-text);">{{ car.fuel_type }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if car.transmission %}
+                        <tr style="border-bottom:1px solid #f0f0f0;">
+                            <td style="padding:7px 0; color:var(--light-text);">⚙️ КПП</td>
+                            <td style="padding:7px 0; font-weight:500; color:var(--dark-text);">{{ car.transmission }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if car.engine_capacity %}
+                        <tr style="border-bottom:1px solid #f0f0f0;">
+                            <td style="padding:7px 0; color:var(--light-text);">🔧 Объём</td>
+                            <td style="padding:7px 0; font-weight:500; color:var(--dark-text);">{{ car.engine_capacity }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if car.color %}
+                        <tr style="border-bottom:1px solid #f0f0f0;">
+                            <td style="padding:7px 0; color:var(--light-text);">🎨 Цвет</td>
+                            <td style="padding:7px 0; font-weight:500; color:var(--dark-text);">{{ car.color }}</td>
+                        </tr>
+                        {% endif %}
+                        {% if car.body_type %}
+                        <tr>
+                            <td style="padding:7px 0; color:var(--light-text);">🚘 Кузов</td>
+                            <td style="padding:7px 0; font-weight:500; color:var(--dark-text);">{{ car.body_type }}</td>
+                        </tr>
+                        {% endif %}
+                    </table>
+                </div>
+
+                <!-- Правая часть: история, статус, адрес -->
+                <div style="padding:20px 25px;">
+
+                    <!-- Статус чистоты -->
+                    <h3 style="font-size:15px; color:var(--dark-text); margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border-gray);">
+                        <i class="fas fa-shield-alt" style="color:var(--primary-blue);"></i> Проверка истории
+                    </h3>
+
+                    {% if car.accidents_count is defined %}
+                        {% if car.accidents_count == 0 %}
+                        <div style="background:#d4edda; color:#155724; padding:12px 16px; border-radius:10px; margin-bottom:12px; font-weight:500;">
+                            <i class="fas fa-check-circle"></i> ДТП не зафиксированы
+                        </div>
+                        {% else %}
+                        <div style="background:#fff3cd; color:#856404; padding:12px 16px; border-radius:10px; margin-bottom:12px; font-weight:500;">
+                            <i class="fas fa-exclamation-triangle"></i> Зафиксировано ДТП: {{ car.accidents_count }}
+                        </div>
+                        {% endif %}
+                    {% else %}
+                        <div style="background:var(--light-gray); color:var(--light-text); padding:12px 16px; border-radius:10px; margin-bottom:12px; font-size:13px;">
+                            <i class="fas fa-info-circle"></i> История ДТП доступна в Premium
+                        </div>
+                    {% endif %}
+
+                    <!-- Чек-лист -->
+                    <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:20px;">
+                        <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--light-gray); border-radius:8px; font-size:13px;">
+                            <i class="fas fa-check-circle" style="color:var(--success);"></i>
+                            <span>Пробег проверен по базе Encar</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--light-gray); border-radius:8px; font-size:13px;">
+                            {% if car.is_dealer is defined and not car.is_dealer %}
+                            <i class="fas fa-check-circle" style="color:var(--success);"></i>
+                            <span>Частная продажа (не дилер)</span>
+                            {% elif car.is_dealer %}
+                            <i class="fas fa-store" style="color:var(--primary-blue);"></i>
+                            <span>Продаёт дилер</span>
+                            {% else %}
+                            <i class="fas fa-question-circle" style="color:var(--light-text);"></i>
+                            <span>Тип продавца неизвестен</span>
+                            {% endif %}
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; background:var(--light-gray); border-radius:8px; font-size:13px;">
+                            <i class="fas fa-check-circle" style="color:var(--success);"></i>
+                            <span>Данные актуальны на момент публикации</span>
+                        </div>
+                    </div>
+
+                    <!-- Адрес -->
+                    {% if car.address %}
+                    <h3 style="font-size:15px; color:var(--dark-text); margin-bottom:10px;">
+                        <i class="fas fa-map-marker-alt" style="color:var(--primary-blue);"></i> Местонахождение
+                    </h3>
+                    <p style="font-size:13px; color:var(--light-text); margin-bottom:15px; padding:10px 14px; background:var(--light-gray); border-radius:8px;">
+                        🇰🇷 {{ car.address }}
+                    </p>
+                    {% endif %}
+
+                    <!-- Описание -->
+                    {% if car.description %}
+                    <h3 style="font-size:15px; color:var(--dark-text); margin-bottom:10px;">
+                        <i class="fas fa-file-alt" style="color:var(--primary-blue);"></i> Описание
+                    </h3>
+                    <p style="font-size:13px; color:var(--light-text); line-height:1.6; margin-bottom:15px;">
+                        {{ car.description }}
+                    </p>
+                    {% endif %}
+
+                    <!-- Кнопки действий -->
+                    <div style="display:flex; flex-direction:column; gap:10px; margin-top:auto;">
+                        {% if car.original_url %}
+                        <a href="{{ car.original_url }}" target="_blank"
+                           style="display:block; padding:11px; background:var(--light-blue); color:var(--primary-blue); border-radius:10px; text-decoration:none; text-align:center; font-weight:600; font-size:14px; transition:background 0.2s;"
+                           onmouseover="this.style.background='#d0e4f7'"
+                           onmouseout="this.style.background='var(--light-blue)'">
+                            <i class="fas fa-external-link-alt"></i> Открыть на Encar.com
+                        </a>
+                        {% endif %}
+                        <a href="/pricing"
+                           style="display:block; padding:11px; background:var(--primary-blue); color:white; border-radius:10px; text-decoration:none; text-align:center; font-weight:600; font-size:14px; transition:background 0.2s;"
+                           onmouseover="this.style.background='var(--secondary-blue)'"
+                           onmouseout="this.style.background='var(--primary-blue)'">
+                            <i class="fas fa-file-alt"></i> Получить полный отчёт
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Нижняя полоска с датой -->
+            {% if car.created_at %}
+            <div style="padding:10px 25px; background:var(--light-gray); border-top:1px solid var(--border-gray); font-size:12px; color:var(--light-text);">
+                <i class="fas fa-clock"></i> Добавлено в базу: {{ car.created_at[:10] if car.created_at is string else car.created_at.strftime('%d.%m.%Y') }}
+            </div>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+    <!-- ===== НЕ НАЙДЕНО ===== -->
+    {% else %}
+        <div style="text-align:center; padding:60px 20px; background:white; border-radius:16px; border:1px solid var(--border-gray);">
+            <div style="font-size:64px; margin-bottom:20px;">🔍</div>
+            <h3 style="color:var(--dark-text); font-size:22px; margin-bottom:10px;">
+                Автомобиль не найден
+            </h3>
+            <p style="color:var(--light-text); margin-bottom:8px;">
+                По запросу <strong>«{{ query }}»</strong> ничего не найдено в базе данных
+            </p>
+            <p style="color:var(--light-text); font-size:14px; margin-bottom:30px;">
+                Убедитесь что VIN введён правильно (17 символов, без букв I, O, Q)
+            </p>
+
+            <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+                <a href="/" style="padding:12px 25px; background:var(--primary-blue); color:white; border-radius:25px; text-decoration:none; font-weight:600;">
+                    <i class="fas fa-search"></i> Новый поиск
+                </a>
+                <a href="/pricing" style="padding:12px 25px; background:var(--light-blue); color:var(--primary-blue); border-radius:25px; text-decoration:none; font-weight:600;">
+                    <i class="fas fa-crown"></i> Расширить поиск
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+
+{% block title %}Auto Korea - Проверка авто из Кореи по VIN{% endblock %}
+
+{% block content %}
+<!-- Герой с поиском -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Проверьте историю корейского авто перед покупкой</h1>
+        <p class="hero-subtitle">Введите VIN-код, чтобы узнать полную историю: пробег, ДТП, залоги и многое другое</p>
+        <form action="/search" method="get" class="hero-search">
+            <input type="text" name="vin" placeholder="Например: KMHWH81KMPU123456" required pattern="[A-HJ-NPR-Z0-9]{17}" title="VIN должен содержать 17 символов">
+            <button type="submit"><i class="fas fa-search"></i> Проверить</button>
+        </form>
+        <div class="recent-checks">
+            <span class="recent-checks-label">Сейчас проверяют:</span>
+            <div class="recent-checks-marquee">
+                <span>✅ KIA K5 (2021)</span>
+                <span>🔍 Hyundai Santa Fe (2022)</span>
+                <span>✅ Genesis GV80 (2023)</span>
+                <span>🔍 KIA Sorento (2020)</span>
+                <span>✅ Hyundai Palisade (2022)</span>
+                <span>🔍 KIA Mohave (2021)</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Преимущества -->
+<section class="advantages">
+    <h2 class="section-title">Почему выбирают <span>Auto Korea</span></h2>
+    <div class="advantages-grid">
+        <div class="advantage-card">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Точные данные</h3>
+            <p>Информация напрямую с корейских аукционов Encar и KCar</p>
+        </div>
+        <div class="advantage-card">
+            <i class="fas fa-bolt"></i>
+            <h3>Мгновенно</h3>
+            <p>Полный отчет за 2 минуты после оплаты</p>
+        </div>
+        <div class="advantage-card">
+            <i class="fas fa-car"></i>
+            <h3>Любое авто</h3>
+            <p>Проверяем легковые, грузовые и праворульные авто из Кореи</p>
+        </div>
+        <div class="advantage-card">
+            <i class="fas fa-file-alt"></i>
+            <h3>Понятный отчет</h3>
+            <p>Вся история структурирована и готова к печати</p>
+        </div>
+    </div>
+</section>
+
+<!-- Что покажет отчет -->
+<section class="report-features">
+    <h2 class="section-title">Что вы узнаете из <span>отчета</span></h2>
+    <div class="features-grid">
+        <div class="feature-item"><i class="fas fa-car-crash" style="color:#dc3545;"></i><span>ДТП и повреждения</span></div>
+        <div class="feature-item"><i class="fas fa-road" style="color:#28a745;"></i><span>Реальный пробег</span></div>
+        <div class="feature-item"><i class="fas fa-ban" style="color:#dc3545;"></i><span>Залог и ограничения</span></div>
+        <div class="feature-item"><i class="fas fa-gavel" style="color:#fd7e14;"></i><span>Розыск и угон</span></div>
+        <div class="feature-item"><i class="fas fa-users" style="color:#007bff;"></i><span>Количество владельцев</span></div>
+        <div class="feature-item"><i class="fas fa-taxi" style="color:#6f42c1;"></i><span>Работа в такси</span></div>
+        <div class="feature-item"><i class="fas fa-calendar" style="color:#17a2b8;"></i><span>Таможенная история</span></div>
+        <div class="feature-item"><i class="fas fa-copy" style="color:#6c757d;"></i><span>Дубликат ПТС</span></div>
+    </div>
+</section>
+
+<!-- Как это работает -->
+<section class="how-it-works">
+    <h2 class="section-title">Как получить отчет за <span>2 минуты</span></h2>
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">1</div>
+            <i class="fas fa-search"></i>
+            <h4>Введите VIN</h4>
+            <p>Введите 17-значный VIN-код автомобиля</p>
+        </div>
+        <div class="step">
+            <div class="step-number">2</div>
+            <i class="fas fa-credit-card"></i>
+            <h4>Оплатите</h4>
+            <p>Premium-доступ откроет полную историю</p>
+        </div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <i class="fas fa-file-pdf"></i>
+            <h4>Получите отчет</h4>
+            <p>PDF с деталями придет на email</p>
+        </div>
+    </div>
+</section>
+
+<!-- Пример отчета -->
+<section class="sample-report">
+    <h2 class="section-title">Пример <span>отчета</span></h2>
+    <div class="report-preview">
+        <div class="report-header">
+            <h3>KIA K5 (2021) • VIN: KNA...123</h3>
+            <span class="report-status">Premium отчет</span>
+        </div>
+        <div class="report-grid">
+            <div class="report-block">
+                <h4><i class="fas fa-check-circle" style="color:#28a745;"></i> Чистые данные</h4>
+                <ul><li>✓ Не в залоге</li><li>✓ Не в розыске</li><li>✓ Нет ограничений</li></ul>
+            </div>
+            <div class="report-block warning">
+                <h4><i class="fas fa-exclamation-triangle" style="color:#ffc107;"></i> Требует внимания</h4>
+                <ul><li>⚠️ 2 ДТП (мелкие)</li><li>⚠️ Пробег скорректирован</li><li>⚠️ 3 владельца</li></ul>
+            </div>
+            <div class="report-block">
+                <h4><i class="fas fa-chart-line"></i> История пробега</h4>
+                <ul><li>2021: 15,000 км</li><li>2022: 45,000 км</li><li>2023: 78,000 км</li></ul>
+            </div>
+            <div class="report-block">
+                <h4><i class="fas fa-images"></i> Фото с аукциона</h4>
+                <div class="preview-images">
+                    <div class="preview-thumb"></div>
+                    <div class="preview-thumb"></div>
+                    <div class="preview-thumb"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Статистика -->
+<section class="stats">
+    <div class="stat-card">
+        <span class="stat-number">{{ stats.total_cars }}+</span>
+        <span class="stat-label">Проверено авто</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">98%</span>
+        <span class="stat-label">Довольных клиентов</span>
+    </div>
+    <div class="stat-card">
+        <span class="stat-number">5 лет</span>
+        <span class="stat-label">На рынке КР</span>
+    </div>
+</section>
+
+<!-- Отзывы -->
+<section class="testimonials">
+    <h2 class="section-title">Что говорят <span>клиенты</span></h2>
+    <div class="testimonials-grid">
+        <div class="testimonial">
+            <i class="fas fa-quote-left"></i>
+            <p>"Спасибо, что уберегли от покупки битой Kia K5. Отчет показал серьезные повреждения, о которых продавец умолчал. Сэкономили кучу нервов!"</p>
+            <div class="testimonial-author"><strong>Азамат</strong><span>Бишкек</span></div>
+        </div>
+        <div class="testimonial">
+            <i class="fas fa-quote-left"></i>
+            <p>"Проверял Hyundai Santa Fe перед покупкой. Все четко, быстро, понятно. Отдельно порадовали фото с аукциона — видно реальное состояние."</p>
+            <div class="testimonial-author"><strong>Марат</strong><span>Ош</span></div>
+        </div>
+        <div class="testimonial">
+            <i class="fas fa-quote-left"></i>
+            <p>"Отличный сервис! Теперь проверяю все машины перед покупкой. Особенно полезно для праворульных — номера кузова тоже пробиваются."</p>
+            <div class="testimonial-author"><strong>Дмитрий</strong><span>Кара-Балта</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- Призыв к действию -->
+<section class="cta">
+    <h2>Готовы проверить автомобиль?</h2>
+    <p>Введите VIN прямо сейчас и узнайте всю правду о машине из Кореи</p>
+    <a href="#" class="btn-cta" onclick="document.querySelector('.hero-search input').focus(); return false;"><i class="fas fa-search"></i> Проверить VIN</a>
+</section>
+{% endblock %}
